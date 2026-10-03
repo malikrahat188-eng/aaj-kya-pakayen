@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aaj Kya Pakayen? - Smart Pakistani Home Cooking Helper</title>
+  <!-- Google Fonts: Baloo 2 & Nunito -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --deep-green: #0f6b4a;
+      --deep-green-dark: #094731;
+      --saffron: #f4a81d;
+      --saffron-light: #fef5e7;
+      --chilli-red: #d93a2b;
+      --chilli-red-light: #fdf2f0;
+      --light-leaf-green: #e6f4ea;
+      --leaf-green-border: #b8e2c8;
+      --warm-bg: #fffaf0;
+      --card-bg: #ffffff;
+      --text-main: #23272a;
+      --text-muted: #596166;
+      --border-color: #e2dbce;
+      --shadow-sm: 0 2px 6px rgba(15, 107, 74, 0.08);
+      --shadow-md: 0 6px 18px rgba(15, 107, 74, 0.12);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--warm-bg);
+      color: var(--text-main);
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+
+    /* Accessibility & Focus Outlines */
+    :focus-visible {
+      outline: 3px solid var(--saffron) !important;
+      outline-offset: 3px !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Container */
+    .app-container {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--deep-green) 0%, #16835c 100%);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+
+    .brand-subtitle {
+      font-size: 0.95rem;
+      opacity: 0.92;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 30px;
+      padding: 3px;
+      flex-shrink: 0;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      min-height: 38px;
+      min-width: 44px;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn.active {
+      background-color: var(--saffron);
+      color: #1a1a1a;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Form Card */
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 22px 18px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--deep-green);
+      margin-bottom: 4px;
+    }
+
+    .helper-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 105px;
+      padding: 12px 14px;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      color: var(--text-main);
+      background-color: #fffdf9;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus {
+      border-color: var(--deep-green);
+    }
+
+    .char-counter {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Quick Chips */
+    .chips-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-top: 6px;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .chips-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .chip-btn {
+      background-color: var(--light-leaf-green);
+      border: 1px solid var(--leaf-green-border);
+      color: var(--deep-green);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 16px;
+      cursor: pointer;
+      min-height: 32px;
+      transition: all 0.15s;
+    }
+
+    .chip-btn:hover {
+      background-color: #d2edd9;
+    }
+
+    /* Row for People & Budget */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .people-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stepper-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-color);
+      background-color: #f7f5ef;
+      color: var(--deep-green);
+      font-size: 1.3rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .stepper-btn:hover {
+      background-color: #ece8dc;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      height: 44px;
+      text-align: center;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      background-color: #ffffff;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Radio Pills for Budget */
+    .radio-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pill-label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      background-color: #fcfbf7;
+      transition: all 0.2s;
+      user-select: none;
+      padding: 0 8px;
+      text-align: center;
+    }
+
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    input[type="radio"]:checked + .pill-label {
+      border-color: var(--deep-green);
+      background-color: var(--light-leaf-green);
+      color: var(--deep-green);
+    }
+
+    input[type="radio"]:focus-visible + .pill-label {
+      outline: 3px solid var(--saffron);
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      min-height: 52px;
+      background-color: var(--chilli-red);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(217, 58, 43, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.15s, background-color 0.2s, box-shadow 0.2s;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background-color: #be2e20;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(217, 58, 43, 0.38);
+    }
+
+    .submit-btn:disabled {
+      background-color: #c9938e;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Loading State */
+    .loading-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 16px;
+      text-align: center;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 5px solid var(--light-leaf-green);
+      border-top-color: var(--deep-green);
+      border-right-color: var(--saffron);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-message {
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--deep-green);
+    }
+
+    /* Error Message Box */
+    .error-box {
+      display: none;
+      background-color: var(--chilli-red-light);
+      border: 1px solid #f5c2bd;
+      border-left: 5px solid var(--chilli-red);
+      color: #921f14;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Results Section */
+    .results-container {
+      display: none;
+    }
+
+    .section-title {
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--deep-green);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Quick Tip Cards (Use First & Leftover) */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .tip-card {
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tip-use-first {
+      background-color: var(--light-leaf-green);
+      border: 1.5px solid var(--leaf-green-border);
+      border-left: 6px solid var(--deep-green);
+    }
+
+    .tip-leftover {
+      background-color: var(--saffron-light);
+      border: 1.5px solid #f9deb2;
+      border-left: 6px solid var(--saffron);
+    }
+
+    .tip-title {
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tip-use-first .tip-title {
+      color: var(--deep-green-dark);
+    }
+
+    .tip-leftover .tip-title {
+      color: #a46400;
+    }
+
+    .tip-body {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    /* Meal Ideas Cards */
+    .meal-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .meal-card {
+      background-color: var(--card-bg);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .meal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .meal-name {
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--deep-green);
+      line-height: 1.2;
+    }
+
+    .meal-time-badge {
+      background-color: var(--saffron-light);
+      color: #925800;
+      border: 1px solid #f8d59b;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .meal-why {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+
+    .recipe-steps-title {
+      font-family: 'Baloo 2', cursive, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--deep-green-dark);
+      margin-bottom: 8px;
+    }
+
+    .meal-steps {
+      list-style-type: none;
+      counter-reset: step-counter;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .meal-steps li {
+      counter-increment: step-counter;
+      position: relative;
+      padding-left: 36px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .meal-steps li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 1px;
+      width: 24px;
+      height: 24px;
+      background-color: var(--light-leaf-green);
+      color: var(--deep-green);
+      border: 1.5px solid var(--leaf-green-border);
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: auto;
+      padding-top: 24px;
+      padding-bottom: 12px;
+    }
+
+    footer p {
+      margin-bottom: 4px;
+    }
+
+    /* 360px small screen refinements */
+    @media (max-width: 400px) {
+      body {
+        padding: 10px;
+      }
+      header {
+        padding: 18px 14px;
+      }
+      .brand-title {
+        font-size: 1.6rem;
+      }
+      .card {
+        padding: 16px 12px;
+      }
+      .meal-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .meal-time-badge {
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header>
+      <div class="header-top">
+        <div>
+          <h1 class="brand-title" id="ui-title">Aaj Kya Pakayen?</h1>
+          <p class="brand-subtitle" id="ui-subtitle">Ghar ke ajzaa se mazedar Pakistani khana banayein aur ziyaan rokein</p>
+        </div>
+        <!-- Language Switcher -->
+        <div class="lang-switcher" role="group" aria-label="Language selection">
+          <button type="button" class="lang-btn active" id="lang-ur" aria-pressed="true">Urdu</button>
+          <button type="button" class="lang-btn" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Error Alert Box -->
+    <div id="error-box" class="error-box" role="alert" aria-live="polite"></div>
+
+    <!-- Main Meal Suggester Form Card -->
+    <main class="card">
+      <form id="meal-form" novalidate>
+        <!-- Ingredients Input -->
+        <div class="form-group">
+          <label for="ingredients-input" id="ui-label-ingredients">Aapke paas kya ajzaa (ingredients) mojood hain?</label>
+          <span class="helper-text" id="ui-helper-ingredients">Kitchen, fridge ya freezer mein jo sabziyan, daal, anday ya bacha saman hai darj karein (2-500 haroof).</span>
+          
+          <textarea
+            id="ingredients-input"
+            name="ingredients"
+            rows="3"
+            maxlength="500"
+            required
+            placeholder="Maslan: 3 aloo, 1 pyaaz, 2 tamatar, thori palak, 3 anday..."
+          ></textarea>
+
+          <div class="char-counter">
+            <span id="char-count">0</span>/500
+          </div>
+
+          <!-- Quick Suggestion Chips -->
+          <span class="chips-label" id="ui-chips-label">Jaldi chun'ne ke liye dabayein:</span>
+          <div class="chips-wrapper" id="chips-container">
+            <!-- Dynamically populated or updated by JS -->
+          </div>
+        </div>
+
+        <!-- Row: People & Budget -->
+        <div class="form-row">
+          <!-- People Stepper -->
+          <div class="form-group">
+            <label for="people-input" id="ui-label-people">Kitne afraad (people) ke liye?</label>
+            <div class="people-control">
+              <button type="button" class="stepper-btn" id="btn-decrement" aria-label="Decrease people">−</button>
+              <input type="number" id="people-input" name="people" min="1" max="20" value="4" required>
+              <button type="button" class="stepper-btn" id="btn-increment" aria-label="Increase people">+</button>
+            </div>
+          </div>
+
+          <!-- Budget Level -->
+          <div class="form-group">
+            <label id="ui-label-budget">Budget ka miyaar:</label>
+            <div class="radio-pills" role="radiogroup">
+              <input type="radio" id="budget-low" name="budget" value="low" checked>
+              <label for="budget-low" class="pill-label" id="ui-budget-low">Kam Kharch (Low)</label>
+
+              <input type="radio" id="budget-medium" name="budget" value="medium">
+              <label for="budget-medium" class="pill-label" id="ui-budget-medium">Darmiyana (Medium)</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span id="ui-btn-text">Khana batayein</span>
+          <span>🍲</span>
+        </button>
+      </form>
+    </main>
+
+    <!-- Loading Indicator -->
+    <div id="loading-state" class="loading-state" aria-live="polite">
+      <div class="spinner"></div>
+      <p class="loading-message" id="ui-loading-msg">Ammi ke gharelu nuskhe dhoonde ja rahe hain... 🍛</p>
+    </div>
+
+    <!-- Results Section -->
+    <section id="results-container" class="results-container" aria-live="polite">
+      <h2 class="section-title" id="ui-results-heading">
+        <span>✨</span> <span id="ui-results-title">Aaj Ke Behtareen Pakwan</span>
+      </h2>
+
+      <!-- Tips Row: Use First & Leftovers -->
+      <div class="tips-grid">
+        <div class="tip-card tip-use-first" id="card-use-first">
+          <div class="tip-title" id="ui-title-use-first">🥬 Jald Istemal Karein (Use First)</div>
+          <div class="tip-body" id="text-use-first"></div>
+        </div>
+
+        <div class="tip-card tip-leftover" id="card-leftover">
+          <div class="tip-title" id="ui-title-leftover">💡 Bache Hue Khane Ka Nuskha (Leftover Idea)</div>
+          <div class="tip-body" id="text-leftover"></div>
+        </div>
+      </div>
+
+      <!-- Meal Cards List -->
+      <div class="meal-cards-list" id="meals-list">
+        <!-- Rendered safely with textContent via JS -->
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p id="ui-footer-quote">Khana zaya hone se bachayein aur ghar ka sasta khana khayein ❤️</p>
+      <p>Aaj Kya Pakayen? &copy; 2026</p>
+    </footer>
+  </div>
+
+  <script>
+    // State management
+    const state = {
+      lang: 'ur',
+      isLoading: false,
+      hasResults: false,
+      lastSubmitted: null
+    };
+
+    // UI Dictionary for Roman Urdu and English
+    const i18n = {
+      ur: {
+        title: "Aaj Kya Pakayen?",
+        subtitle: "Ghar ke ajzaa se mazedar Pakistani khana banayein aur ziyaan rokein",
+        labelIngredients: "Aapke paas kya ajzaa (ingredients) mojood hain?",
+        helperIngredients: "Kitchen, fridge ya freezer mein jo sabziyan, daal, anday ya bacha saman hai darj karein (2-500 haroof).",
+        placeholderIngredients: "Maslan: 3 aloo, 1 pyaaz, 2 tamatar, thori palak, 3 anday...",
+        chipsLabel: "Jaldi chun'ne ke liye dabayein:",
+        chips: [
+          "Aloo, Pyaaz, Anday",
+          "Daal Masoor, Chawal, Zeera",
+          "Tamatar, Shimla Mirch, Dahi",
+          "Palak, Aloo, Hari Mirch"
+        ],
+        labelPeople: "Kitne afraad (people) ke liye?",
+        labelBudget: "Budget ka miyaar:",
+        budgetLow: "Kam Kharch (Low)",
+        budgetMed: "Darmiyana (Medium)",
+        btnText: "Khana batayein",
+        loadingMsg: "Ammi ke gharelu nuskhe dhoonde ja rahe hain... 🍛",
+        resultsTitle: "Aaj Ke Behtareen Pakwan",
+        titleUseFirst: "🥬 Jald Istemal Karein (Use First)",
+        titleLeftover: "💡 Bache Hue Khane Ka Nuskha (Leftover Idea)",
+        recipeStepsHeader: "Asan Tarkeeb (Step-by-Step):",
+        prepTimePrefix: "⏱️ Waqt: ",
+        footerQuote: "Khana zaya hone se bachayein aur ghar ka sasta khana khayein ❤️",
+        errEmpty: "Baraye meherbani kam az kam kuch ajzaa (ingredients) zaroor darj karein (2-500 haroof).",
+        errTooMany: "Bohat zyada requests! Baraye meherbani ek minute baad dobara koshish karein.",
+        errNetwork: "Server se rabta nahi ho saka. Baraye meherbani internet connection check karein aur dobara koshish karein.",
+        errGeneral: "Khana tajweez karne mein masla paish aaya. Baraye meherbani dobara koshish karein."
+      },
+      en: {
+        title: "Aaj Kya Pakayen?",
+        subtitle: "Turn fridge ingredients into delicious Pakistani home meals & stop food waste",
+        labelIngredients: "What ingredients do you have right now?",
+        helperIngredients: "List veggies, lentils, eggs, dairy, or pantry items you want to use up (2-500 characters).",
+        placeholderIngredients: "e.g. 3 potatoes, 1 onion, 2 tomatoes, some spinach, 3 eggs...",
+        chipsLabel: "Tap to quickly fill ingredients:",
+        chips: [
+          "Potatoes, Onions, Eggs",
+          "Red Lentils, Rice, Cumin",
+          "Tomatoes, Capsicum, Yogurt",
+          "Spinach, Potatoes, Green Chillies"
+        ],
+        labelPeople: "How many people are you cooking for?",
+        labelBudget: "Budget preference:",
+        budgetLow: "Budget-Friendly (Low)",
+        budgetMed: "Everyday (Medium)",
+        btnText: "Suggest meals",
+        loadingMsg: "Cooking up delicious Pakistani home recipes for you... 🍛",
+        resultsTitle: "Today's Meal Suggestions",
+        titleUseFirst: "🥬 Use This First (Perishable Tip)",
+        titleLeftover: "💡 Leftover Magic Idea",
+        recipeStepsHeader: "Step-by-Step Recipe:",
+        prepTimePrefix: "⏱️ Time: ",
+        footerQuote: "Stop food waste & enjoy healthy Pakistani home cooking ❤️",
+        errEmpty: "Please enter at least a few ingredients to get meal ideas (2-500 characters).",
+        errTooMany: "Too many requests! Please wait a minute before trying again.",
+        errNetwork: "Could not connect to the server. Please check your connection and try again.",
+        errGeneral: "Unable to suggest meals right now. Please try again in a moment."
+      }
+    };
+
+    // DOM Elements
+    const langUrBtn = document.getElementById('lang-ur');
+    const langEnBtn = document.getElementById('lang-en');
+    const form = document.getElementById('meal-form');
+    const ingredientsInput = document.getElementById('ingredients-input');
+    const charCountEl = document.getElementById('char-count');
+    const chipsContainer = document.getElementById('chips-container');
+    const peopleInput = document.getElementById('people-input');
+    const btnDecrement = document.getElementById('btn-decrement');
+    const btnIncrement = document.getElementById('btn-increment');
+    const submitBtn = document.getElementById('submit-btn');
+    const errorBox = document.getElementById('error-box');
+    const loadingState = document.getElementById('loading-state');
+    const resultsContainer = document.getElementById('results-container');
+    const textUseFirst = document.getElementById('text-use-first');
+    const textLeftover = document.getElementById('text-leftover');
+    const mealsList = document.getElementById('meals-list');
+
+    // UI Translation Applier
+    function updateUIText(lang) {
+      const texts = i18n[lang];
+      document.documentElement.lang = lang;
+
+      document.getElementById('ui-title').textContent = texts.title;
+      document.getElementById('ui-subtitle').textContent = texts.subtitle;
+      document.getElementById('ui-label-ingredients').textContent = texts.labelIngredients;
+      document.getElementById('ui-helper-ingredients').textContent = texts.helperIngredients;
+      ingredientsInput.placeholder = texts.placeholderIngredients;
+      document.getElementById('ui-chips-label').textContent = texts.chipsLabel;
+      document.getElementById('ui-label-people').textContent = texts.labelPeople;
+      document.getElementById('ui-label-budget').textContent = texts.labelBudget;
+      document.getElementById('ui-budget-low').textContent = texts.budgetLow;
+      document.getElementById('ui-budget-medium').textContent = texts.budgetMed;
+      document.getElementById('ui-btn-text').textContent = texts.btnText;
+      document.getElementById('ui-loading-msg').textContent = texts.loadingMsg;
+      document.getElementById('ui-results-title').textContent = texts.resultsTitle;
+      document.getElementById('ui-title-use-first').textContent = texts.titleUseFirst;
+      document.getElementById('ui-title-leftover').textContent = texts.titleLeftover;
+      document.getElementById('ui-footer-quote').textContent = texts.footerQuote;
+
+      // Update recipe step headers in existing cards if rendered
+      document.querySelectorAll('.recipe-steps-title').forEach(el => {
+        el.textContent = texts.recipeStepsHeader;
+      });
+
+      // Update chips
+      renderChips(texts.chips);
+    }
+
+    // Render Quick Selection Chips
+    function renderChips(chips) {
+      chipsContainer.replaceChildren(); // Safe DOM clear
+      chips.forEach(chipText => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'chip-btn';
+        chip.textContent = chipText;
+        chip.addEventListener('click', () => {
+          ingredientsInput.value = chipText;
+          updateCharCount();
+          ingredientsInput.focus();
+        });
+        chipsContainer.appendChild(chip);
+      });
+    }
+
+    // Character Counter
+    function updateCharCount() {
+      const len = ingredientsInput.value.length;
+      charCountEl.textContent = len;
+      if (len > 500) {
+        charCountEl.style.color = 'var(--chilli-red)';
+      } else {
+        charCountEl.style.color = 'var(--text-muted)';
+      }
+    }
+    ingredientsInput.addEventListener('input', updateCharCount);
+
+    // People Stepper Controls
+    btnDecrement.addEventListener('click', () => {
+      let val = parseInt(peopleInput.value, 10) || 4;
+      if (val > 1) {
+        peopleInput.value = val - 1;
+      }
+    });
+
+    btnIncrement.addEventListener('click', () => {
+      let val = parseInt(peopleInput.value, 10) || 4;
+      if (val < 20) {
+        peopleInput.value = val + 1;
+      }
+    });
+
+    peopleInput.addEventListener('change', () => {
+      let val = parseInt(peopleInput.value, 10);
+      if (isNaN(val) || val < 1) val = 1;
+      if (val > 20) val = 20;
+      peopleInput.value = val;
+    });
+
+    // Error Box Handler
+    function showError(msg) {
+      errorBox.textContent = msg; // strictly textContent, zero innerHTML
+      errorBox.style.display = 'block';
+      errorBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function hideError() {
+      errorBox.textContent = '';
+      errorBox.style.display = 'none';
+    }
+
+    // Set Loading State
+    function setLoading(loading) {
+      state.isLoading = loading;
+      submitBtn.disabled = loading;
+      ingredientsInput.disabled = loading;
+      peopleInput.disabled = loading;
+      btnDecrement.disabled = loading;
+      btnIncrement.disabled = loading;
+      document.querySelectorAll('input[name="budget"]').forEach(r => r.disabled = loading);
+
+      if (loading) {
+        hideError();
+        loadingState.style.display = 'flex';
+        loadingState.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        loadingState.style.display = 'none';
+      }
+    }
+
+    // Render Meals safely using DOM API and textContent
+    function renderResults(data) {
+      hideError();
+      const texts = i18n[state.lang];
+
+      // Use first tip (textContent only)
+      textUseFirst.textContent = data.use_first || (state.lang === 'ur' ? 'Koi khas jaldi kharab hone wala juzz nahi.' : 'No highly perishable item detected.');
+
+      // Leftover idea (textContent only)
+      textLeftover.textContent = data.leftover_idea || (state.lang === 'ur' ? 'Bache hue salan ko garma garam parathe ke sath khayein.' : 'Enjoy leftovers with warm parathas.');
+
+      // Clear previous meals safely
+      mealsList.replaceChildren();
+
+      // Build each meal card
+      if (Array.isArray(data.meals)) {
+        data.meals.forEach(meal => {
+          const card = document.createElement('article');
+          card.className = 'meal-card';
+
+          // Card header
+          const cardHeader = document.createElement('div');
+          cardHeader.className = 'meal-header';
+
+          const title = document.createElement('h3');
+          title.className = 'meal-name';
+          title.textContent = meal.name || 'Pakistani Dish'; // textContent
+
+          const timeBadge = document.createElement('span');
+          timeBadge.className = 'meal-time-badge';
+          timeBadge.textContent = (texts.prepTimePrefix || '⏱️ ') + (meal.time || '25 mins'); // textContent
+
+          cardHeader.appendChild(title);
+          cardHeader.appendChild(timeBadge);
+          card.appendChild(cardHeader);
+
+          // Why this dish
+          if (meal.why) {
+            const whyP = document.createElement('p');
+            whyP.className = 'meal-why';
+            whyP.textContent = meal.why; // textContent
+            card.appendChild(whyP);
+          }
+
+          // Steps Title
+          const stepsHeading = document.createElement('h4');
+          stepsHeading.className = 'recipe-steps-title';
+          stepsHeading.textContent = texts.recipeStepsHeader;
+          card.appendChild(stepsHeading);
+
+          // Steps list
+          const ol = document.createElement('ol');
+          ol.className = 'meal-steps';
+
+          if (Array.isArray(meal.steps)) {
+            meal.steps.forEach(stepText => {
+              const li = document.createElement('li');
+              li.textContent = stepText; // strictly textContent
+              ol.appendChild(li);
+            });
+          }
+
+          card.appendChild(ol);
+          mealsList.appendChild(card);
+        });
+      }
+
+      resultsContainer.style.display = 'block';
+      state.hasResults = true;
+      resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Submit / Request Handler
+    async function requestSuggestions(isLanguageSwitch = false) {
+      if (state.isLoading) return;
+
+      const ingredients = ingredientsInput.value.trim();
+      const texts = i18n[state.lang];
+
+      // Validation
+      if (!ingredients || ingredients.length < 2) {
+        showError(texts.errEmpty);
+        ingredientsInput.focus();
+        return;
+      }
+
+      if (ingredients.length > 500) {
+        showError(texts.errEmpty);
+        ingredientsInput.focus();
+        return;
+      }
+
+      const people = Math.min(20, Math.max(1, parseInt(peopleInput.value, 10) || 4));
+      const budgetEl = document.querySelector('input[name="budget"]:checked');
+      const budget = budgetEl ? budgetEl.value : 'low';
+
+      state.lastSubmitted = { ingredients, people, budget };
+
+      setLoading(true);
+
+      try {
+        const response = await fetch('/api/suggest', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            ingredients,
+            people,
+            budget,
+            lang: state.lang
+          })
+        });
+
+        if (response.status === 429) {
+          showError(texts.errTooMany);
+          return;
+        }
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => null);
+          const friendlyMessage = errData && errData.error ? errData.error : texts.errGeneral;
+          showError(friendlyMessage);
+          return;
+        }
+
+        const data = await response.json();
+        renderResults(data);
+      } catch (err) {
+        console.error('Fetch error:', err);
+        showError(texts.errNetwork);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    // Form Submit Listener
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      requestSuggestions(false);
+    });
+
+    // Language Toggle Listener
+    function switchLanguage(newLang) {
+      if (state.lang === newLang) return;
+      state.lang = newLang;
+
+      if (newLang === 'ur') {
+        langUrBtn.classList.add('active');
+        langUrBtn.setAttribute('aria-pressed', 'true');
+        langEnBtn.classList.remove('active');
+        langEnBtn.setAttribute('aria-pressed', 'false');
+      } else {
+        langEnBtn.classList.add('active');
+        langEnBtn.setAttribute('aria-pressed', 'true');
+        langUrBtn.classList.remove('active');
+        langUrBtn.setAttribute('aria-pressed', 'false');
+      }
+
+      updateUIText(newLang);
+
+      // "If results are already shown, re-request them in the new language."
+      if (state.hasResults && state.lastSubmitted) {
+        requestSuggestions(true);
+      }
+    }
+
+    langUrBtn.addEventListener('click', () => switchLanguage('ur'));
+    langEnBtn.addEventListener('click', () => switchLanguage('en'));
+
+    // Initialize UI on load
+    updateUIText(state.lang);
+    updateCharCount();
+  </script>
+</body>
+</html>

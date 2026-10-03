@@ -1,0 +1,24 @@
+{
+  "name": "aaj-kya-pakayen",
+  "version": "1.0.0",
+  "description": "Smart meal suggestion app for Pakistani households to reduce food waste",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "cooking",
+    "pakistan",
+    "recipes",
+    "food-waste",
+    "gemini",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
